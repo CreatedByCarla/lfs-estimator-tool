@@ -15,7 +15,7 @@
   'use strict';
 
   // ---------------------------------------------------------------------
-  // PRICING CONFIG — PLACEHOLDER RATES.
+  // PRICING CONFIG - PLACEHOLDER RATES.
   // These figures are illustrative only. Replace with London Fire
   // Sprinklers' real day rates / material costs before this goes live
   // on the client's site.
@@ -41,10 +41,10 @@
   };
 
   var ROLE_LABELS = {
-    homeowner: 'Homeowner — protecting my own home or family',
-    architect: 'Architect — specifying for a client’s design',
-    builder: 'Builder / Developer — pricing or building a project',
-    other: 'Something else — not sure yet, just exploring'
+    homeowner: 'Homeowner - protecting my own home or family',
+    architect: 'Architect - specifying for a client’s design',
+    builder: 'Builder / Developer - pricing or building a project',
+    other: 'Something else - not sure yet, just exploring'
   };
 
   var DEFAULT_TITLE = 'Get an instant fire sprinkler quote';
@@ -84,8 +84,10 @@
       '.lfs-estimator *{box-sizing:border-box;}' +
       '.lfs-estimator__title{margin:0 0 16px;font-family:"Mukta",sans-serif;font-weight:200;' +
       'font-size:1.5rem;line-height:1.3;color:var(--lfs-ink);}' +
+      '.lfs-estimator__legend{margin:0 0 14px;font-size:0.75rem;color:var(--lfs-ink);}' +
       '.lfs-estimator__field{margin-bottom:14px;}' +
       '.lfs-estimator__field label{display:block;margin-bottom:6px;font-size:0.9rem;font-weight:700;}' +
+      '.lfs-estimator__req{color:var(--lfs-red);}' +
       '.lfs-estimator__field select,.lfs-estimator__field input{width:100%;padding:10px 12px;' +
       'font-family:"Lato",Helvetica,Arial,sans-serif;font-size:1rem;border:1px solid var(--lfs-ink);' +
       'border-radius:6px;background:#fff;color:var(--lfs-ink);}' +
@@ -126,44 +128,45 @@
     container.innerHTML =
       '<form class="lfs-estimator" novalidate>' +
         '<h3 class="lfs-estimator__title">' + title + '</h3>' +
+        '<p class="lfs-estimator__legend">* Required</p>' +
         '<div class="lfs-estimator__field">' +
-          '<label for="' + idPrefix + '-role">Which best describes you?</label>' +
+          '<label for="' + idPrefix + '-role">Which best describes you? <span class="lfs-estimator__req">*</span></label>' +
           '<select id="' + idPrefix + '-role" name="role" required>' +
             '<option value="" disabled selected>Select an option</option>' +
             roleOptions +
           '</select>' +
         '</div>' +
         '<div class="lfs-estimator__field">' +
-          '<label for="' + idPrefix + '-type">Property type</label>' +
+          '<label for="' + idPrefix + '-type">Property type <span class="lfs-estimator__req">*</span></label>' +
           '<select id="' + idPrefix + '-type" name="propertyType" required>' +
             '<option value="" disabled selected>Select property type</option>' +
             typeOptions +
           '</select>' +
         '</div>' +
         '<div class="lfs-estimator__field">' +
-          '<label for="' + idPrefix + '-address">Property address</label>' +
+          '<label for="' + idPrefix + '-address">Property address <span class="lfs-estimator__req">*</span></label>' +
           '<input type="text" id="' + idPrefix + '-address" name="address" autocomplete="street-address" required>' +
         '</div>' +
         '<div class="lfs-estimator__field">' +
-          '<label for="' + idPrefix + '-area">Total floor area (m&sup2;)</label>' +
+          '<label for="' + idPrefix + '-area">Total floor area (m&sup2;) <span class="lfs-estimator__req">*</span></label>' +
           '<input type="number" id="' + idPrefix + '-area" name="area" min="1" step="1" inputmode="numeric" required>' +
         '</div>' +
         '<div class="lfs-estimator__field">' +
-          '<label for="' + idPrefix + '-floors">Number of floors</label>' +
+          '<label for="' + idPrefix + '-floors">Number of floors <span class="lfs-estimator__req">*</span></label>' +
           '<input type="number" id="' + idPrefix + '-floors" name="floors" min="1" step="1" value="1" inputmode="numeric" required>' +
         '</div>' +
         '<div class="lfs-estimator__field">' +
-          '<label for="' + idPrefix + '-email">Email address</label>' +
+          '<label for="' + idPrefix + '-email">Email address <span class="lfs-estimator__req">*</span></label>' +
           '<input type="email" id="' + idPrefix + '-email" name="email" autocomplete="email" required>' +
         '</div>' +
         '<div class="lfs-estimator__field">' +
-          '<label for="' + idPrefix + '-phone">Phone number (optional)</label>' +
+          '<label for="' + idPrefix + '-phone">Phone number</label>' +
           '<input type="tel" id="' + idPrefix + '-phone" name="phone" autocomplete="tel">' +
         '</div>' +
         '<button type="submit" class="lfs-estimator__submit">Get instant estimate</button>' +
         '<div class="lfs-estimator__result" aria-live="polite" hidden></div>' +
         '<p class="lfs-estimator__disclaimer">' +
-          'This is an instant, indicative estimate only &mdash; not a fixed quote. ' +
+          'This is an instant, indicative estimate only - not a fixed quote. ' +
           'Final pricing depends on a full site survey.' +
         '</p>' +
       '</form>';

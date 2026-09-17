@@ -13,7 +13,7 @@ This is a standalone project, unrelated to any other client work.
 
 - A single, dependency-free JavaScript file (`lfs-estimator.js`) that
   injects a styled form and calculates an estimate client-side.
-- No backend, no build step — just host the file somewhere public and
+- No backend, no build step - just host the file somewhere public and
   drop in a two-line embed snippet.
 
 ### Form fields
@@ -29,11 +29,11 @@ This is a standalone project, unrelated to any other client work.
 | Phone number | No |
 
 **Note:** there's currently no backend, so submitted contact details
-(email/phone/address) aren't sent or stored anywhere — the form only
+(email/phone/address) aren't sent or stored anywhere - the form only
 calculates and displays the estimate in the browser. If you want actual
 leads delivered to London Fire Sprinklers (e.g. by email or into a CRM),
 that needs a submission endpoint wiring up next (a form service like
-Formspree, or a simple serverless function) — let me know and I'll add it.
+Formspree, or a simple serverless function) - let me know and I'll add it.
 
 ## Embedding on londonfiresprinklers.com
 
@@ -57,7 +57,7 @@ Optional per-instance overrides via data attributes on the container:
 Because it's loaded via `<script src="...">`, the file needs to live
 somewhere publicly reachable. Options, easiest first:
 
-1. **GitHub Pages** — enable Pages for this repo (Settings → Pages →
+1. **GitHub Pages** - enable Pages for this repo (Settings → Pages →
    deploy from `main` branch, root). The script will then be available at:
    `https://createdbycarla.github.io/lfs-estimator-tool/lfs-estimator.js`
 2. **jsDelivr CDN** (no setup needed, works off any public GitHub repo):
@@ -67,7 +67,7 @@ somewhere publicly reachable. Options, easiest first:
 ## Updating the pricing logic
 
 All pricing figures live at the top of `lfs-estimator.js`, in
-`PRICING_CONFIG`. **These are placeholder rates** — replace them with
+`PRICING_CONFIG`. **These are placeholder rates** - replace them with
 London Fire Sprinklers' real numbers before this goes live:
 
 ```js
@@ -113,6 +113,6 @@ stylesheet after the widget's own styles are injected:
 
 ## Testing locally
 
-Open `demo/index.html` directly in a browser — it loads the widget
+Open `demo/index.html` directly in a browser - it loads the widget
 exactly as it would be embedded, so you can try it end-to-end before
 sending anything to the client.
