@@ -40,8 +40,16 @@
     mixed: 'Mixed-use / Other'
   };
 
-  var DEFAULT_TITLE = 'Instant Sprinkler Installation Estimate';
+  var ROLE_LABELS = {
+    homeowner: 'Homeowner — protecting my own home or family',
+    architect: 'Architect — specifying for a client’s design',
+    builder: 'Builder / Developer — pricing or building a project',
+    other: 'Something else — not sure yet, just exploring'
+  };
+
+  var DEFAULT_TITLE = 'Get an instant fire sprinkler quote';
   var DEFAULT_CONTACT_URL = 'https://londonfiresprinklers.com/contact';
+  var EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   var instanceCount = 0;
 
@@ -67,29 +75,33 @@
     var style = document.createElement('style');
     style.id = 'lfs-estimator-styles';
     style.textContent =
-      '.lfs-estimator{--lfs-primary:#c8102e;--lfs-primary-dark:#a10d24;--lfs-text:#1a1a1a;' +
-      '--lfs-muted:#5a5a5a;--lfs-bg:#ffffff;--lfs-border:#d8d8d8;--lfs-radius:10px;' +
+      '@import url(\'https://fonts.googleapis.com/css2?family=Mukta:wght@200;600&family=Lato:wght@400;700&display=swap\');' +
+      '.lfs-estimator{--lfs-ink:#050505;--lfs-red:#EA1B1B;--lfs-bg:#ffffff;--lfs-radius:10px;' +
       'box-sizing:border-box;max-width:420px;width:100%;padding:24px;background:var(--lfs-bg);' +
-      'border:1px solid var(--lfs-border);border-radius:var(--lfs-radius);' +
-      'font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;' +
-      'color:var(--lfs-text);}' +
+      'border:1px solid var(--lfs-ink);border-radius:var(--lfs-radius);' +
+      'font-family:"Lato",Helvetica,Arial,sans-serif;font-weight:400;' +
+      'color:var(--lfs-ink);}' +
       '.lfs-estimator *{box-sizing:border-box;}' +
-      '.lfs-estimator__title{margin:0 0 16px;font-size:1.15rem;font-weight:700;line-height:1.3;}' +
+      '.lfs-estimator__title{margin:0 0 16px;font-family:"Mukta",sans-serif;font-weight:200;' +
+      'font-size:1.5rem;line-height:1.3;color:var(--lfs-ink);}' +
       '.lfs-estimator__field{margin-bottom:14px;}' +
-      '.lfs-estimator__field label{display:block;margin-bottom:6px;font-size:0.9rem;font-weight:600;}' +
+      '.lfs-estimator__field label{display:block;margin-bottom:6px;font-size:0.9rem;font-weight:700;}' +
       '.lfs-estimator__field select,.lfs-estimator__field input{width:100%;padding:10px 12px;' +
-      'font-size:1rem;border:1px solid var(--lfs-border);border-radius:6px;background:#fff;color:var(--lfs-text);}' +
-      '.lfs-estimator__field select:focus,.lfs-estimator__field input:focus{outline:2px solid var(--lfs-primary);outline-offset:1px;}' +
-      '.lfs-estimator__submit{width:100%;padding:12px 16px;font-size:1rem;font-weight:700;color:#fff;' +
-      'background:var(--lfs-primary);border:none;border-radius:6px;cursor:pointer;transition:background .15s ease;}' +
-      '.lfs-estimator__submit:hover{background:var(--lfs-primary-dark);}' +
-      '.lfs-estimator__result{margin-top:18px;padding:16px;border-radius:8px;background:#f7f7f7;text-align:center;}' +
-      '.lfs-estimator__result--error{background:#fdecea;color:#a10d24;font-size:0.9rem;}' +
-      '.lfs-estimator__price{margin:0;font-size:1.4rem;font-weight:700;color:var(--lfs-primary);}' +
-      '.lfs-estimator__price-caption{margin:4px 0 12px;font-size:0.85rem;color:var(--lfs-muted);}' +
+      'font-family:"Lato",Helvetica,Arial,sans-serif;font-size:1rem;border:1px solid var(--lfs-ink);' +
+      'border-radius:6px;background:#fff;color:var(--lfs-ink);}' +
+      '.lfs-estimator__field select:focus,.lfs-estimator__field input:focus{outline:2px solid var(--lfs-red);outline-offset:1px;}' +
+      '.lfs-estimator__submit{width:100%;padding:12px 16px;font-family:"Lato",Helvetica,Arial,sans-serif;' +
+      'font-size:1rem;font-weight:700;color:#fff;' +
+      'background:var(--lfs-red);border:none;border-radius:6px;cursor:pointer;transition:background .15s ease;}' +
+      '.lfs-estimator__submit:hover{background:var(--lfs-ink);}' +
+      '.lfs-estimator__result{margin-top:18px;padding:16px;border:1px solid var(--lfs-ink);border-radius:8px;text-align:center;}' +
+      '.lfs-estimator__result--error{border-color:var(--lfs-red);color:var(--lfs-red);font-size:0.9rem;}' +
+      '.lfs-estimator__price{margin:0;font-family:"Mukta",sans-serif;font-weight:200;font-size:1.6rem;color:var(--lfs-red);}' +
+      '.lfs-estimator__price-caption{margin:4px 0 12px;font-size:0.85rem;color:var(--lfs-ink);}' +
       '.lfs-estimator__cta{display:inline-block;padding:10px 18px;font-size:0.9rem;font-weight:700;' +
-      'color:#fff;background:var(--lfs-text);border-radius:6px;text-decoration:none;}' +
-      '.lfs-estimator__disclaimer{margin:14px 0 0;font-size:0.75rem;line-height:1.4;color:var(--lfs-muted);}';
+      'color:#fff;background:var(--lfs-ink);border-radius:6px;text-decoration:none;}' +
+      '.lfs-estimator__cta:hover{background:var(--lfs-red);}' +
+      '.lfs-estimator__disclaimer{margin:14px 0 0;font-size:0.75rem;line-height:1.4;color:var(--lfs-ink);}';
     document.head.appendChild(style);
   }
 
@@ -105,9 +117,22 @@
       })
       .join('');
 
+    var roleOptions = Object.keys(ROLE_LABELS)
+      .map(function (key) {
+        return '<option value="' + key + '">' + ROLE_LABELS[key] + '</option>';
+      })
+      .join('');
+
     container.innerHTML =
       '<form class="lfs-estimator" novalidate>' +
         '<h3 class="lfs-estimator__title">' + title + '</h3>' +
+        '<div class="lfs-estimator__field">' +
+          '<label for="' + idPrefix + '-role">Which best describes you?</label>' +
+          '<select id="' + idPrefix + '-role" name="role" required>' +
+            '<option value="" disabled selected>Select an option</option>' +
+            roleOptions +
+          '</select>' +
+        '</div>' +
         '<div class="lfs-estimator__field">' +
           '<label for="' + idPrefix + '-type">Property type</label>' +
           '<select id="' + idPrefix + '-type" name="propertyType" required>' +
@@ -116,12 +141,24 @@
           '</select>' +
         '</div>' +
         '<div class="lfs-estimator__field">' +
+          '<label for="' + idPrefix + '-address">Property address</label>' +
+          '<input type="text" id="' + idPrefix + '-address" name="address" autocomplete="street-address" required>' +
+        '</div>' +
+        '<div class="lfs-estimator__field">' +
           '<label for="' + idPrefix + '-area">Total floor area (m&sup2;)</label>' +
           '<input type="number" id="' + idPrefix + '-area" name="area" min="1" step="1" inputmode="numeric" required>' +
         '</div>' +
         '<div class="lfs-estimator__field">' +
           '<label for="' + idPrefix + '-floors">Number of floors</label>' +
           '<input type="number" id="' + idPrefix + '-floors" name="floors" min="1" step="1" value="1" inputmode="numeric" required>' +
+        '</div>' +
+        '<div class="lfs-estimator__field">' +
+          '<label for="' + idPrefix + '-email">Email address</label>' +
+          '<input type="email" id="' + idPrefix + '-email" name="email" autocomplete="email" required>' +
+        '</div>' +
+        '<div class="lfs-estimator__field">' +
+          '<label for="' + idPrefix + '-phone">Phone number (optional)</label>' +
+          '<input type="tel" id="' + idPrefix + '-phone" name="phone" autocomplete="tel">' +
         '</div>' +
         '<button type="submit" class="lfs-estimator__submit">Get instant estimate</button>' +
         '<div class="lfs-estimator__result" aria-live="polite" hidden></div>' +
@@ -136,14 +173,20 @@
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      var role = form.role.value;
       var propertyType = form.propertyType.value;
+      var address = form.address.value.trim();
       var area = parseFloat(form.area.value);
       var floors = parseInt(form.floors.value, 10);
+      var email = form.email.value.trim();
 
-      if (!propertyType || !area || area <= 0 || !floors || floors <= 0) {
+      var isValid = role && propertyType && address && area > 0 && floors > 0 &&
+        EMAIL_PATTERN.test(email);
+
+      if (!isValid) {
         resultEl.hidden = false;
         resultEl.className = 'lfs-estimator__result lfs-estimator__result--error';
-        resultEl.textContent = 'Please fill in every field with a valid value.';
+        resultEl.textContent = 'Please fill in every required field with a valid value.';
         return;
       }
 

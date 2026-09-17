@@ -3,9 +3,9 @@
 An instant, embeddable fire sprinkler installation cost estimator, built
 for **London Fire Sprinklers** ([londonfiresprinklers.com](https://londonfiresprinklers.com/)).
 
-A visitor picks a property type, floor area, and number of floors, and
-gets an instant indicative price range plus a call-to-action to request
-a full survey and fixed quote.
+A visitor tells us who they are, their property details and contact
+info, and gets an instant indicative price range plus a call-to-action
+to request a full survey and fixed quote.
 
 This is a standalone project, unrelated to any other client work.
 
@@ -15,6 +15,25 @@ This is a standalone project, unrelated to any other client work.
   injects a styled form and calculates an estimate client-side.
 - No backend, no build step — just host the file somewhere public and
   drop in a two-line embed snippet.
+
+### Form fields
+
+| Field | Required? |
+|---|---|
+| Which best describes you? (homeowner / architect / builder-developer / other) | Yes |
+| Property type | Yes |
+| Property address | Yes |
+| Total floor area (m²) | Yes |
+| Number of floors | Yes |
+| Email address | Yes |
+| Phone number | No |
+
+**Note:** there's currently no backend, so submitted contact details
+(email/phone/address) aren't sent or stored anywhere — the form only
+calculates and displays the estimate in the browser. If you want actual
+leads delivered to London Fire Sprinklers (e.g. by email or into a CRM),
+that needs a submission endpoint wiring up next (a form service like
+Formspree, or a simple serverless function) — let me know and I'll add it.
 
 ## Embedding on londonfiresprinklers.com
 
@@ -28,7 +47,7 @@ Optional per-instance overrides via data attributes on the container:
 ```html
 <div
   data-lfs-estimator
-  data-title="Get Your Instant Sprinkler Quote"
+  data-title="Get an instant fire sprinkler quote"
   data-contact-url="https://londonfiresprinklers.com/contact"
 ></div>
 ```
@@ -76,14 +95,19 @@ high = max(low, subtotal × 1.25)
 
 ## Customising the look
 
+The widget is styled to brand: **#050505** (near-black, text/borders)
+and **#EA1B1B** (red, buttons/price/accents), with **Mukta ExtraLight**
+for the heading and **Lato Regular** for body copy (both loaded from
+Google Fonts automatically).
+
 Colours are exposed as CSS custom properties on `.lfs-estimator`, so you
-can restyle it to match the client's brand without touching the JS.
-Add an override stylesheet after the widget's own styles are injected:
+can restyle it further without touching the JS. Add an override
+stylesheet after the widget's own styles are injected:
 
 ```css
 .lfs-estimator {
-  --lfs-primary: #your-brand-colour;
-  --lfs-primary-dark: #your-brand-colour-darker;
+  --lfs-ink: #your-colour;
+  --lfs-red: #your-accent-colour;
 }
 ```
 
